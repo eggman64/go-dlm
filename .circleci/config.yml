@@ -1,0 +1,17 @@
+version: 2
+jobs:
+    build:
+        docker:
+          - image: circleci/golang:1
+          - image: circleci/redis
+        working_directory: /go/src/github.com/MEDIGO/go-dlm
+        steps:
+            - checkout
+            - run: go get -u gopkg.in/redis.v4 
+            - run: go get -u github.com/stretchr/testify/require 
+            - run:
+                name: 'Lint'
+                command: make lint
+            - run:
+                name: 'Test'
+                command: make test
